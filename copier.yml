@@ -1,0 +1,5 @@
+_subdirectory: templates/hello
+project_name:
+  type: str
+  default: Hello
+  help: Project display name
