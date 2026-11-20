@@ -1,0 +1,32 @@
+{
+  "name": "templates-handbook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --bun next dev",
+    "build": "bun --bun next build",
+    "lint": "bun --bun biome lint --error-on-warnings ."
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.0",
+    "fumadocs-core": "^15.8.0",
+    "fumadocs-mdx": "^11.8.0",
+    "fumadocs-ui": "^15.8.0",
+    "lucide-react": "^0.468.0",
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "@types/mdx": "^2",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@unocss/postcss": "^66.13.0",
+    "typescript": "~5.8.3",
+    "unocss": "^66.13.0"
+  },
+  "packageManager": "bun@1.4.2"
+}

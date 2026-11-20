@@ -1,0 +1,33 @@
+---
+title: Quality assurance
+description: Three different checks answer three different questions. A successful render isn't a successful GitHub run.
+icon: ShieldCheck
+---
+
+## Check matrix
+
+| Gate | When | What counts as success |
+| --- | --- | --- |
+| Catalog lint | PR and push to main | Python automation, catalog layout, and prose pass rude-clean-code, alint, rumdl, and Vale. |
+| Copier smoke | PR and push to main | A fresh render contains the Hello workflow, renders the chosen name, and prints exactly `hello world`. |
+| Live fixture | Weekly on Monday at 01:17 UTC or manual dispatch on main | A private repository actually runs `hello.yml` at the pushed commit, the `hello` job succeeds, and its log contains the greeting. |
+
+## Reproduce the fast gates
+
+```bash
+pixi install --locked
+pixi run --locked tools run lint
+pixi run --locked tools run smoke
+```
+
+## Audit a live run
+
+Open [Hello fixture E2E in Actions](https://github.com/Archont561/templates/actions/workflows/e2e.yml). It runs weekly on `main`; maintainers can also dispatch it on demand. The harness polls for the exact pushed SHA and workflow, saves evidence, then attempts to delete the ID-verified fixture. Download the **hello-e2e** artifact from the parent run; deleting the fixture makes its own run URL unsuitable as a permanent record.
+
+<Accordions type="single" collapsible>
+<Accordion title="What is in the evidence bundle?">`fixture.json` identifies the repository and commit. `run.json` records the workflow state. For a completed run, `jobs.json` and `hello.log` show the job outcomes and greeting. A failure before execution may leave only partial evidence.</Accordion>
+<Accordion title="Why did no downstream run appear?">Check that Actions is enabled, that the push targeted `main`, and that the publisher used its authorized token. A missing run times out; it isn't treated as success.</Accordion>
+<Accordion title="Does every pull request create a private repository?">No. Catalog CI runs the fast checks. The live test is a separate scheduled or manually dispatched workflow, not a claim that every revision passed E2E.</Accordion>
+</Accordions>
+
+<Callout type="warn" title="Keep fixture credentials out of templates">Store `TMPL_E2E_PAT` in the protected `tmpl` environment. Never copy it into generated repositories or expose it to PR-controlled publisher code.</Callout>

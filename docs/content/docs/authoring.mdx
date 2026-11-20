@@ -1,0 +1,22 @@
+---
+title: Add a starter
+description: An authoring checklist for growing beyond Hello without publishing the catalog itself.
+icon: Wrench
+---
+
+## Starter contract
+
+1. Put downstream files under `templates/<name>/`. A workflow inside that payload runs only after it becomes `.github/workflows/` in a generated repository.
+2. Update the root `copier.yml`. Today `_subdirectory` points directly to `templates/hello`; **adding a directory alone doesn't make it selectable**. Introduce a starter choice and map it to reviewed payload directories when adding the second starter.
+3. Add a render case that verifies generated paths, substituted answers, and one observable command output. Declare the expected workflow and job if it needs live E2E coverage.
+4. Add a page under `docs/content/docs/`, list it in `meta.json`, and link the catalog card. Document prerequisites, commands, expected output, and evidence separately.
+
+## Keep automation scoped
+
+| Location | Belongs to |
+| --- | --- |
+| `tools/`, `.github/workflows/` | Catalog maintainers |
+| `templates/hello/tools/`, `templates/hello/.github/workflows/` | Generated Hello project |
+| `docs/` | Static handbook; never included in Hello |
+
+<Callout title="Before announcing a starter">Run the generated project outside the catalog checkout. If it only works with an undeclared parent file or local environment, it isn't self-contained.</Callout>
