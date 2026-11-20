@@ -1,0 +1,72 @@
+---
+title: Hello starter
+description: A Python script, a README, and one push-triggered workflow. Nothing else to install downstream.
+icon: Terminal
+---
+
+## Generate a project
+
+<Steps>
+<Step>
+
+### Choose how to generate
+
+Use **Clone first** to inspect the source. Use **Direct from Git** to generate without keeping a catalog checkout. Both examples use `main`; replace it with a reviewed commit SHA for reproducible generation. The first route needs Git and Pixi on Linux x86-64; the second needs Git and Copier 9.
+
+<Tabs items={['Clone first','Direct from Git']}>
+<Tab value="Clone first">
+```bash
+git clone https://github.com/Archont561/templates.git
+cd templates
+pixi install --locked
+pixi run copier copy --vcs-ref HEAD --defaults . ../my-hello
+cd ../my-hello
+```
+</Tab>
+<Tab value="Direct from Git">
+```bash
+copier copy --vcs-ref main --defaults https://github.com/Archont561/templates.git my-hello
+cd my-hello
+```
+</Tab>
+</Tabs>
+</Step>
+<Step>
+
+### Run the generated script
+
+```bash
+python tools/hello.py
+```
+
+Expected standard output:
+
+```text
+hello world
+```
+</Step>
+<Step>
+
+### See it run on GitHub
+
+Create an empty GitHub repo, then run the following **from the generated project**. Substitute your own remote URL. The first push to `main` triggers **Hello** under Actions if workflows are enabled.
+
+```bash
+git init -b main
+git add .
+git commit -m "Generate Hello starter"
+git remote add origin https://github.com/YOUR-ACCOUNT/YOUR-REPO.git
+git push -u origin main
+```
+</Step>
+</Steps>
+
+## What ships
+
+<Files><Folder name="my-hello" defaultOpen><File name="README.md"/><Folder name="tools" defaultOpen><File name="hello.py"/></Folder><Folder name=".github/workflows" defaultOpen><File name="hello.yml"/></Folder></Folder></Files>
+
+## Template answers
+
+<TypeTable type={{project_name:{type:'string',default:'Hello',description:'Project display name in README.md. Pass -d project_name="My Hello" to copier copy.'}}}/>
+
+<Callout title="Clone versus copy">Cloning gives you the catalog source. Running Copier gives you the starter. Always point Copier at the repository root, where `copier.yml` lives.</Callout>
