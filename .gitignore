@@ -1,0 +1,12 @@
+.pixi/
+__pycache__/
+*.pyc
+
+# Static handbook outputs
+docs/node_modules/
+docs/.source/
+docs/.next/
+docs/out/
+docs/*.tsbuildinfo
+
+.rumdl_cache/

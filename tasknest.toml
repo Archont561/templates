@@ -1,0 +1,10 @@
+[tasknest]
+config_version = 1
+
+[discovery]
+workspaces = false
+
+[[discovery.roots]]
+path = "tools"
+namespace = ""
+project_root = "."
