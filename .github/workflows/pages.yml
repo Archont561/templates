@@ -1,0 +1,47 @@
+name: Handbook Pages
+on:
+  pull_request:
+    paths: ['docs/**', 'pixi.toml', 'pixi.lock', '.github/workflows/pages.yml']
+  push:
+    branches: [main]
+    paths: ['docs/**', 'pixi.toml', 'pixi.lock', '.github/workflows/pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: prefix-dev/setup-pixi@ad1da6449d9e506fd127fd67ab2d054a769f6a94
+        with:
+          run-install: false
+      - run: pixi run --locked docs-install
+      - run: pixi run --locked docs-lint
+      - run: pixi run --locked docs-build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_TELEMETRY_DISABLED: '1'
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: docs/out
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: handbook-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish static handbook
+        id: deployment
+        uses: actions/deploy-pages@v4
