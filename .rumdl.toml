@@ -3,7 +3,7 @@ flavor = "gfm"
 # Do not hard-wrap prose, tables, or copyable shell commands.
 disable = ["MD013"]
 respect-gitignore = true
-include = ["README.md", "AGENTS.md", "backlog/**/*.md", "docs/content/docs/**/*.mdx"]
+include = ["README.md", "AGENTS.md", "CONTRIBUTING.md", "backlog/**/*.md", "docs/content/docs/**/*.mdx"]
 exclude = [".pixi/**", "**/node_modules/**", "docs/.next/**", "docs/.source/**", "docs/out/**", ".vale/**"]
 
 [per-file-flavor]

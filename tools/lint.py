@@ -4,7 +4,7 @@ from tasknest import ToolContext, tool
 
 
 CHECK = "check"
-DOCS = ("README.md", "AGENTS.md", "backlog", "docs/content/docs")
+DOCS = ("README.md", "AGENTS.md", "CONTRIBUTING.md", "backlog", "docs/content/docs")
 
 
 @tool(description="Check Python, repository structure, and documentation.")
