@@ -1,0 +1,32 @@
+name: Hello fixture E2E
+on:
+  schedule:
+    - cron: "17 1 * * 1"  # Monday night: 02:17 CET / 03:17 CEST in Warsaw
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hello:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: tmpl
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: prefix-dev/setup-pixi@ad1da6449d9e506fd127fd67ab2d054a769f6a94
+        with:
+          run-install: false
+      - run: pixi install --locked
+      - name: Render hello and run downstream CI
+        env:
+          GH_TOKEN: ${{ secrets.TMPL_E2E_PAT }}
+        run: pixi run --locked tools run e2e
+      - name: Save fixture evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-e2e-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/hello-e2e-report/
+          if-no-files-found: warn
