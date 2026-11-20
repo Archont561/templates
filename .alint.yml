@@ -1,0 +1,12 @@
+version: 1
+extends:
+  - alint://bundled/hygiene/no-tracked-artifacts@v1
+  - url: alint://bundled/hygiene/lockfiles@v1
+    # The handbook is an independent Bun project; its lockfile is required below.
+    except: [lockfiles-no-nested-bun]
+rules:
+  - id: catalog-entrypoints
+    kind: file_exists
+    paths: [copier.yml, tasknest.toml, pixi.lock, docs/bun.lock, gh-templates/README.md.j2, gh-templates/AGENTS.md.j2]
+    level: error
+    message: Catalog entrypoint, lockfile, or document source is missing.
